@@ -1,0 +1,55 @@
+{
+  "name": "@vidit19sharma/opencode-kiro-auth",
+  "version": "0.1.0",
+  "description": "OpenCode plugin that uses your Kiro subscription through the official kiro-cli (ACP) — no token scraping, no private API.",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "opencode-kiro-auth": "dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "installation.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "author": "Vidit Sharma <vidit19sharma@gmail.com> (https://github.com/vidit19sharma)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vidit19sharma/opencode-kiro-auth.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vidit19sharma/opencode-kiro-auth/issues"
+  },
+  "homepage": "https://github.com/vidit19sharma/opencode-kiro-auth#readme",
+  "keywords": [
+    "opencode",
+    "opencode-plugin",
+    "kiro",
+    "kiro-cli",
+    "acp",
+    "aws",
+    "ai",
+    "llm"
+  ],
+  "scripts": {
+    "build": "tsc && chmod +x dist/cli.js",
+    "test": "bun test spike/models.test.ts && bun run test:cli",
+    "test:cli": "bash spike/cli-setup.test.sh",
+    "prepublishOnly": "npm run build"
+  },
+  "peerDependencies": {
+    "@opencode-ai/plugin": "*"
+  },
+  "devDependencies": {
+    "@opencode-ai/plugin": "latest",
+    "@types/node": "^26.6.5",
+    "typescript": "^5.7.0"
+  },
+  "engines": {
+    "node": ">=22.13"
+  },
+  "license": "MIT"
+}

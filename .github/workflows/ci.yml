@@ -19,11 +19,15 @@ jobs:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
         with:
-          bun-version: latest
+          bun-version: 1.4.2
       - uses: actions/setup-node@v4
         with:
           node-version: 22
       - run: bun install --frozen-lockfile
       - run: bun run build
-      - run: bun test spike/models.test.ts
-      - run: bun run test:cli
+      - run: bun run typecheck
+      - run: bun run test
+      - run: npm pack --dry-run
+      - run: bun run test:package
+        env:
+          OPENCODE_BIN: ${{ github.workspace }}/node_modules/.bin/opencode

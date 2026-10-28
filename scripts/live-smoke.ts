@@ -198,7 +198,7 @@ async function main() {
         resources.push({ kind: "listener", value: origin, removed })
       }
       productCompleted = failure !== "CleanupError" && resources.every(item => item.removed)
-      for (const name of existsSync(`${root}/tmp`) ? readdirSync(`${root}/tmp`) : []) {
+      for (const name of existsSync(`${root}/tmp`) ? readdirSync(`${root}/tmp`).sort() : []) {
         const cliDirectory = (name === "kiro-log" || /^kiro-cli-updates-\d+$/u.test(name)) && lstatSync(`${root}/tmp/${name}`).isDirectory()
         if (cliDirectory) cliTemporaryDirectories.push(name)
         else productCompleted = false

@@ -47,10 +47,22 @@ export function parseModelList(stdout: string): KiroModel[] {
   return []
 }
 
+function isCachedModel(value: unknown): value is KiroModel {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) return false
+  return "id" in value && typeof value.id === "string" && value.id.length > 0
+    && "name" in value && typeof value.name === "string"
+    && "description" in value && typeof value.description === "string"
+    && "context" in value && typeof value.context === "number" && Number.isFinite(value.context) && value.context >= 0
+    && "multiplier" in value && typeof value.multiplier === "number" && Number.isFinite(value.multiplier) && value.multiplier >= 0
+}
+
 function loadCache(): ModelsCache | undefined {
   try {
-    const raw = JSON.parse(readFileSync(MODELS_CACHE_PATH, "utf8")) as ModelsCache
-    if (raw?.version === 1 && typeof raw.fetchedAt === "number" && Array.isArray(raw.models) && raw.models.length) return raw
+    const raw: unknown = JSON.parse(readFileSync(MODELS_CACHE_PATH, "utf8"))
+    if (typeof raw !== "object" || raw === null || !("version" in raw) || raw.version !== 1) return undefined
+    if (!("fetchedAt" in raw) || typeof raw.fetchedAt !== "number" || !Number.isFinite(raw.fetchedAt) || raw.fetchedAt < 0) return undefined
+    if ("models" in raw && Array.isArray(raw.models) && raw.models.length && raw.models.every(isCachedModel))
+      return { version: 1, fetchedAt: raw.fetchedAt, models: raw.models }
   } catch {
     // no cache yet, or corrupt — ignore
   }

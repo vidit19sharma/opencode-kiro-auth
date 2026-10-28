@@ -86,3 +86,14 @@ test("corrupt cache JSON is ignored", async () => {
   expect(await currentModels()).toEqual(EXPECTED)
   expect(invocations().length).toBe(1)
 })
+
+test.each([null, {}, { id: "bad", name: "Bad", description: "", context: "many", multiplier: 1 }, { id: "bad", name: "Bad", description: "", context: -1, multiplier: 1 }])("ignores malformed cached model members: %j", async (model: unknown) => {
+  writeFileSync(CACHE, JSON.stringify({ version: 1, fetchedAt: Date.now(), models: [model] }))
+  expect(await currentModels()).toEqual(EXPECTED)
+})
+
+test.each(["fetchedAt", "context", "multiplier"])("ignores non-finite cached %s", async (field: string) => {
+  const valid = JSON.stringify({ version: 1, fetchedAt: Date.now(), models: [{ id: "bad", name: "Bad", description: "", context: 200000, multiplier: 1 }] })
+  writeFileSync(CACHE, valid.replace(new RegExp(`"${field}":\\d+`), `"${field}":1e999`))
+  expect(await currentModels()).toEqual(EXPECTED)
+})

@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "noEmit": true,
+    "types": ["bun", "node"],
+    "allowImportingTsExtensions": true
+  },
+  "include": ["src", "spike/**/*.test.ts", "spike/fixtures/**/*.ts", "scripts/**/*.ts"]
+}

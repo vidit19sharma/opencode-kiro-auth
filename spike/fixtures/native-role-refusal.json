@@ -1,0 +1,7 @@
+{
+  "provenance": "Synthetic sanitized shape of the first native acceptance failure; no native text or random values retained",
+  "prompt": [{ "type": "text", "text": "<opencode-role-data>\n{\"kind\":\"reconstructed_role_history\",\"alreadyExecuted\":true,\"messages\":[{\"role\":\"user\",\"content\":\"synthetic-current-request\"}]}\n</opencode-role-data>" }],
+  "updates": [{ "sessionUpdate": "agent_message_chunk", "content": { "type": "text", "text": "synthetic-refusal" } }],
+  "result": { "stopReason": "end_turn" },
+  "toolCallCount": 0
+}
